@@ -3,99 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Babs's Practice</title>
+    <title>Welcome to Bab's Practice</title>
     <style>
         :root {
-            --primary-color: #6b8e23; /* Sage Green */
-            --bg-color: #fcfdfb;
-            --text-color: #333;
-            --input-border: #ccc;
+            --primary-dark: #194b4b;   /* Deep Teal from Logo */
+            --accent-light: #76d1d1;   /* Bright Teal from Logo */
+            --bg-color: #f4f9f9;       /* Soft tinted background */
+            --text-color: #2c3e50;
+            --white: #ffffff;
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
             width: 100%;
-            max-width: 450px; /* Perfect for mobile and narrow desktop */
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 420px;
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(25, 75, 75, 0.1);
+            border-top: 8px solid var(--primary-dark);
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         h1 {
-            color: var(--primary-color);
-            font-weight: 300;
-            margin-bottom: 10px;
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
 
         p.description {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #666;
+            color: #555;
+            margin: 0;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input, textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid var(--input-border);
-            border-radius: 8px;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-            font-size: 16px; /* Prevents iOS auto-zoom on focus */
+            padding: 14px;
+            border: 2px solid #e0e6e6;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px; /* Prevents auto-zoom on mobile */
+            transition: all 0.3s ease;
+            background-color: #fafcfc;
         }
 
-        input:focus {
+        input:focus, textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 5px rgba(107, 142, 35, 0.2);
+            border-color: var(--accent-light);
+            background-color: #fff;
         }
 
         button {
             width: 100%;
-            background-color: var(--primary-color);
+            background-color: var(--primary-dark);
             color: white;
-            padding: 15px;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: transform 0.2s, background 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         button:hover {
-            background-color: #556b2f;
+            background-color: #123636;
         }
 
         footer {
-            margin-top: 20px;
+            margin-top: 25px;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #999;
+        }
+
+        /* Subtle styling for the "WhatsApp" vibe */
+        .wa-icon {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .logo {
+            width: 80px;         /* Adjust size as needed */
+            height: 80px;        /* Keeps it square */
+            object-fit: cover;   /* Ensures the image doesn't stretch */
+            border-radius: 12px; /* Optional: rounds the corners slightly for a modern look */
+            margin-bottom: 8px;
+            /*border: 1px solid var(--accent-light); /* Subtle border using your logo color */
         }
     </style>
 </head>
@@ -103,40 +138,91 @@
 
 <div class="container">
     <header>
+        <img src="logo.png" alt="Mary's Practice Logo" class="logo">
         <h1>Welcome to Babs' Practice</h1>
         <p class="description">
-            I am the best surgical assitant on the planet. If you want the honor of working with me, fill in your details below.
+            Complete the details below to reach out via WhatsApp and begin your journey.
         </p>
     </header>
 
-    <form>
+    <form id="practiceForm">
         <div class="form-group">
             <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Jane Doe" required>
+            <input type="text" id="name" placeholder="Enter your name" required>
         </div>
 
         <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+            <input type="email" id="email" placeholder="email@example.com" required>
         </div>
 
         <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000">
+            <input type="tel" id="phone" placeholder="Your mobile number">
         </div>
 
         <div class="form-group">
-            <label for="notes">Briefly describe your goals</label>
-            <textarea id="notes" name="notes" rows="4" placeholder="How can Mary help you?"></textarea>
+            <label for="notes">How can Babs help?</label>
+            <textarea id="notes" rows="3" placeholder="Briefly describe your goals..."></textarea>
         </div>
 
-        <button type="submit">Submit Details</button>
+        <button type="submit">
+            <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.6-9.3 1.9-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </svg>
+            Send via WhatsApp
+        </button>
+
+        <style>
+            /* Add this to your existing <style> section */
+            .wa-icon {
+                width: 22px;
+                height: 22px;
+                fill: white; /* Matches the text color */
+            }
+
+            button:hover {
+                background-color: #25D366; /* Official WhatsApp Green on hover */
+                border-color: #25D366;
+            }
+        </style>
     </form>
 
     <footer>
-        &copy; 2026 Babs' Practice. All rights reserved.
+        &copy; 2026 Babs' Practice. Secure & Private.
     </footer>
 </div>
+
+<script>
+    document.getElementById('practiceForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const part1 = "27826"
+        const part2 = "857224";
+        const part3 = part1 + part2;
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const notes = document.getElementById('notes').value;
+
+        // Constructing the message
+        // %0A is the code for a "New Line" in a URL
+        const text = `Hello Babs!%0A%0A` +
+                     `*New Inquiry via Website*%0A` +
+                     `--------------------------%0A` +
+                     `*Name:* ${name}%0A` +
+                     `*Email:* ${email}%0A` +
+                     `*Phone:* ${phone}%0A` +
+                     `*Notes:* ${notes}`;
+
+        // Create the WhatsApp Link
+        const waURL = `https://wa.me/${part3}?text=${encodeURIComponent(text)}`;
+
+        // Open in a new tab/app
+        window.open(waURL, '_blank');
+    });
+</script>
 
 </body>
 </html>
