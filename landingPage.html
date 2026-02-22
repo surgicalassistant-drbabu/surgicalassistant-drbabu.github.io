@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babs's Practice</title>
+    <style>
+        :root {
+            --primary-color: #6b8e23; /* Sage Green */
+            --bg-color: #fcfdfb;
+            --text-color: #333;
+            --input-border: #ccc;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px; /* Perfect for mobile and narrow desktop */
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        p.description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            font-size: 16px; /* Prevents iOS auto-zoom on focus */
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(107, 142, 35, 0.2);
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #556b2f;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Welcome to Babs' Practice</h1>
+        <p class="description">
+            I am the best surgical assitant on the planet. If you want the honor of working with me, fill in your details below.
+        </p>
+    </header>
+
+    <form>
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Doe" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000">
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Briefly describe your goals</label>
+            <textarea id="notes" name="notes" rows="4" placeholder="How can Mary help you?"></textarea>
+        </div>
+
+        <button type="submit">Submit Details</button>
+    </form>
+
+    <footer>
+        &copy; 2026 Babs' Practice. All rights reserved.
+    </footer>
+</div>
+
+</body>
+</html>
