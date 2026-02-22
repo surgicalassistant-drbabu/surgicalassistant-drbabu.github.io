@@ -208,13 +208,13 @@
 
         // Constructing the message
         // %0A is the code for a "New Line" in a URL
-        const text = `Hello Babs!%0A%0A` +
-                     `*New Inquiry via Website*%0A` +
-                     `--------------------------%0A` +
-                     `*Name:* ${name}%0A` +
-                     `*Email:* ${email}%0A` +
-                     `*Phone:* ${phone}%0A` +
-                     `*Notes:* ${notes}`;
+        const text = `Hello Babs!
+                     New Inquiry via Website
+                     --------------------------
+                     Name: ${name}
+                     Email: ${email}
+                     Phone: ${phone}
+                     Notes: ${notes}`;
 
         // Create the WhatsApp Link
         const waURL = `https://wa.me/${part3}?text=${encodeURIComponent(text)}`;
