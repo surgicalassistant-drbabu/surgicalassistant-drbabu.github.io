@@ -96,7 +96,7 @@
             filter: grayscale(0.2) contrast(1.1);
             margin: 15px auto 10px auto;
             display: block;
-            border: 4px solid #f9f9f9;
+            border: none; /* REMOVED BORDER AS REQUESTED */
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
@@ -155,6 +155,8 @@
             padding: 18px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; 
             cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px;
         }
+
+        button.submit-btn svg { width: 20px; height: 20px; fill: white; }
         
         footer { margin-top: 25px; font-size: 0.65rem; color: #777; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
     </style>
@@ -172,20 +174,20 @@
             <p style="font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; text-align: center;">Surgical Assistant | Cape Town</p>
 
             <div style="text-align: left; font-size: 0.85rem; line-height: 1.5; color: var(--text-color);">
-                <p>I provide dedicated surgical assistance across Cape Town’s private sector, bringing clinical adaptability and a high-level grasp of musculoskeletal anatomy to every list. My focus is on supporting surgeons to work with maximum confidence and efficiency.</p>
+                <p>I provide dedicated surgical assistance across Cape Town’s private sector, bringing experience, adaptability and a good grasp of musculoskeletal anatomy to every list. My focus is on supporting surgeons to work with maximum confidence and efficiency.</p>
 
                 <h3 style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary-dark); margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Clinical Experience</h3>
                 <ul style="padding-left: 18px; margin: 10px 0;">
-                    <li style="margin-bottom: 5px;"><strong>300+ Cases</strong> across 20+ Private Hospitals (Mediclinic, Life, Netcare).</li>
+                    <li style="margin-bottom: 5px;"><strong>300+ Cases</strong> across 20+ Private Hospitals (Mediclinic, Life, Netcare, etc.)</li>
                     <li style="margin-bottom: 5px;">
                         <strong>General Surgery:</strong> 130+ cases
                         <ul style="padding-left: 15px; margin-top: 4px; list-style-type: circle; color: #555;">
                             <li>Laparoscopic (0° and 30° lens): 70+ cases</li>
                         </ul>
                     </li>
-                    <li style="margin-bottom: 5px;"><strong>Orthopaedics:</strong> 120+ cases.</li>
-                    <li style="margin-bottom: 5px;"><strong>Paediatric Surgery:</strong> 60+ cases.</li>
-                    <li style="margin-bottom: 5px;"><strong>Additional Exposure:</strong> Plastics, Vascular, Gynae, and Colorectal.</li>
+                    <li style="margin-bottom: 5px;"><strong>Orthopaedics:</strong> 120+ cases</li>
+                    <li style="margin-bottom: 5px;"><strong>Paediatric Surgery:</strong> 60+ cases</li>
+                    <li style="margin-bottom: 5px;"><strong>Additional Exposure:</strong> Plastics, Vascular, Gynae, and Colorectal</li>
                 </ul>
 
                 <h3 style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary-dark); margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Technical Competencies</h3>
@@ -226,7 +228,10 @@
             <div style="display:flex; gap:12px;"><div class="form-group" style="flex:1"><label>Date</label><input type="date" id="date"></div><div class="form-group" style="flex:1"><label>Time</label><input type="time" id="time"></div></div>
         </div>
         <div id="querySection" style="display: none;"><div class="form-group"><label>Message</label><textarea id="message" placeholder="How can I help you?"></textarea></div></div>
-        <button type="submit" class="submit-btn" style="margin-top:15px;">Send via WhatsApp</button>
+        <button type="submit" class="submit-btn" style="margin-top:15px;">
+            <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.5-9.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            Send via WhatsApp
+        </button>
     </form>
     <footer>&copy; 2026 Dr Babitha Babu &bull; Cape Town</footer>
 </div>
