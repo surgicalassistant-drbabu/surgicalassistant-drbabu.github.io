@@ -8,7 +8,6 @@
     <style>
         :root {
             --primary-dark: #1c2a23;   
-            --accent-light: #76d1d1;   
             --bg-color: #f4f9f9;       
             --text-color: #2c3e50;
             --main-card: #d9d9d8; 
@@ -31,7 +30,7 @@
             max-width: 400px;
             background: var(--main-card);
             padding: 25px 30px;
-            border-radius: 16px; /* Slightly more rounded for premium feel */
+            border-radius: 16px; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             border-top: 6px solid var(--primary-dark);
             margin-top: 15px;
@@ -45,7 +44,6 @@
             object-fit: cover;
             margin-bottom: 12px;
             display: inline-block;
-            /* No border as requested */
         }
 
         header { margin-bottom: 15px; }
@@ -71,7 +69,7 @@
             width: 50px;
             height: 50px;
             object-fit: cover;
-            border-radius: 50%; /* Round logo often looks more "seal-like" */
+            border-radius: 50%; 
             margin: 0 auto;
             display: block;
         }
@@ -83,7 +81,13 @@
             padding-top: 20px;
         }
 
-        .form-group { margin-bottom: 16px; }
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .form-group { margin-bottom: 16px; flex: 1; }
         
         label {
             display: block;
@@ -92,17 +96,17 @@
             font-size: 0.7rem;
             color: var(--primary-dark);
             text-transform: uppercase;
-            letter-spacing: 1.2px; /* Premium tracking */
+            letter-spacing: 1.2px; 
         }
 
         input {
             width: 100%;
             padding: 14px;
-            background-color: rgba(255, 255, 255, 0.25); /* Frosted glass effect */
+            background-color: rgba(255, 255, 255, 0.25); 
             border: 1px solid rgba(0,0,0,0.08);
             border-radius: 8px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 16px;
             font-family: 'Inter', sans-serif;
             color: var(--text-color);
             transition: all 0.2s ease;
@@ -112,11 +116,6 @@
             outline: none;
             background-color: rgba(255, 255, 255, 0.5);
             border-color: var(--primary-dark);
-        }
-
-        ::placeholder {
-            color: var(--placeholder-grey);
-            text-transform: none;
         }
 
         button {
@@ -139,7 +138,7 @@
         }
 
         button:hover { 
-            background-color: #23362d; /* Slightly lighter version of your green */
+            background-color: #23362d; 
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(28, 42, 35, 0.2);
         }
@@ -184,11 +183,19 @@
             <input type="text" id="hospital" placeholder="e.g. Mediclinic Cape Town" required>
         </div>
 
-        <div class="form-group">
-            <label for="date">Date of Surgery</label>
-            <input type="text" id="date" placeholder="DD-MM-YYYY" 
-                   onfocus="(this.type='date')" 
-                   onblur="if(!this.value)this.type='text'" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="text" id="date" placeholder="DD-MM-YYYY" 
+                       onfocus="handleInputFocus(this, 'date')" 
+                       onblur="if(!this.value)this.type='text'" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Time</label>
+                <input type="text" id="time" placeholder="HH:MM" 
+                       onfocus="handleInputFocus(this, 'time')" 
+                       onblur="if(!this.value)this.type='text'" required>
+            </div>
         </div>
 
         <button type="submit">
@@ -200,11 +207,27 @@
     </form>
 
     <footer>
-        &copy; 2026 Babs' Practice &bull; Cape Town
+        &copy; 2026 Dr Babu's Practice &bull; Cape Town, SA
     </footer>
 </div>
 
 <script>
+    // 1. Set Min Date to Today
+    const dateField = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateField.setAttribute('min', today);
+
+    // 2. Android 1-Tap Picker Fix
+    function handleInputFocus(input, type) {
+        input.type = type;
+        if ('showPicker' in HTMLInputElement.prototype) {
+            try {
+                input.showPicker();
+            } catch (error) {}
+        }
+    }
+
+    // 3. Form Submit
     document.getElementById('practiceForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const number = "27826857224"; 
@@ -213,18 +236,20 @@
         const caseDetails = document.getElementById('case').value;
         const hospital = document.getElementById('hospital').value;
         const dateInput = document.getElementById('date').value;
+        const timeInput = document.getElementById('time').value;
 
         const dateParts = dateInput.split('-');
         const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
 
-        const text = `Hello Babs!
+        const text = `Hello Babitha!
 
 *New Booking Request*
 --------------------------
 *Surgeon:* ${name}
 *Case:* ${caseDetails}
 *Hospital:* ${hospital}
-*Date:* ${formattedDate}`;
+*Date:* ${formattedDate}
+*Time:* ${timeInput}`;
 
         window.open(`https://wa.me/${number}?text=${encodeURIComponent(text)}`, '_blank');
     });
