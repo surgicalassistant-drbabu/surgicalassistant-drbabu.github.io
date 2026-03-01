@@ -41,6 +41,8 @@
         
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.7rem; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1.2px; }
 
+        /* THE FIX: Native pickers often look weird as type="date" by default. 
+           We style them to look like text inputs until they are clicked. */
         input {
             width: 100%; padding: 14px;
             background-color: rgba(255, 255, 255, 0.4); 
@@ -48,29 +50,31 @@
             border-radius: 8px; box-sizing: border-box;
             font-size: 16px; color: var(--text-color);
             -webkit-appearance: none;
+            min-height: 50px;
+        }
+
+        /* Forces the placeholder to show on date/time inputs on some browsers */
+        input[type="date"]:before, input[type="time"]:before {
+            content: attr(placeholder);
+            color: var(--text-color);
+            margin-right: 0.5em;
+        }
+        input[type="date"]:focus:before, input[type="date"]:valid:before,
+        input[type="time"]:focus:before, input[type="time"]:valid:before {
+            content: "";
+            display: none;
         }
 
         .dropdown-wrapper { position: relative; }
         .hospital-list {
             position: absolute;
             top: 100%; left: 0; right: 0;
-            background: white;
-            border-radius: 8px;
+            background: white; border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            z-index: 1000;
-            margin-top: 4px;
+            max-height: 200px; overflow-y: auto;
+            display: none; z-index: 1000; margin-top: 4px;
         }
-        .hospital-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--text-color);
-        }
-        .hospital-item:last-child { border-bottom: none; }
+        .hospital-item { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.9rem; }
         .hospital-item.custom-option { font-style: italic; color: #1c2a23; font-weight: 600; background: #f0f4f2; }
 
         button.submit-btn {
@@ -111,15 +115,11 @@
         <div class="form-row">
             <div class="form-group" style="flex:1">
                 <label>Date</label>
-                <input type="text" id="date" placeholder="DD-MM-YYYY" 
-                       onfocus="forcePicker(this, 'date')" 
-                       onclick="forcePicker(this, 'date')" required>
+                <input type="date" id="date" placeholder="Date" required>
             </div>
             <div class="form-group" style="flex:1">
                 <label>Time</label>
-                <input type="text" id="time" placeholder="HH:MM" 
-                       onfocus="forcePicker(this, 'time')" 
-                       onclick="forcePicker(this, 'time')" required>
+                <input type="time" id="time" placeholder="Time" required>
             </div>
         </div>
 
@@ -128,7 +128,30 @@
 </div>
 
 <script>
-    // 1. HOSPITAL LIST DATA
+    // 1. SET MIN DATE (TODAY)
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    // 2. THE "SINGLE TAP" TRIGGER
+    // We attach it to both date and time inputs
+    const inputs = [dateInput, document.getElementById('time')];
+    inputs.forEach(input => {
+        // Trigger on the very first touch or click
+        ['touchstart', 'click'].forEach(eventType => {
+            input.addEventListener(eventType, function(e) {
+                if ('showPicker' in HTMLInputElement.prototype) {
+                    try {
+                        this.showPicker();
+                    } catch (err) {
+                        // Fallback: the focus event usually handles it
+                    }
+                }
+            });
+        });
+    });
+
+    // 3. HOSPITAL LIST DATA & LOGIC
     const hospitals = [
         "Mediclinic Milnerton", "Mediclinic Cape Gate", "Mediclinic Panorama", 
         "Mediclinic Louis Leipoldt", "Mediclinic Durbanville", "Mediclinic Cape Town", 
@@ -140,40 +163,19 @@
         "Melomed Mitchells Plein"
     ];
 
-    // 2. DISABLE PAST DATES & SINGLE-TAP PICKER
-    function forcePicker(input, type) {
-        input.type = type;
-        
-        // Disable past dates logic
-        if (type === 'date') {
-            const today = new Date().toISOString().split('T')[0];
-            input.setAttribute('min', today);
-        }
-
-        if ('showPicker' in HTMLInputElement.prototype) {
-            try { input.showPicker(); } catch (e) {}
-        }
-    }
-
-    // 3. SEARCHABLE HOSPITAL DROPDOWN
     const hInput = document.getElementById('hospitalInput');
     const hList = document.getElementById('hospitalList');
 
     function renderList(filter = "") {
         hList.innerHTML = '';
         const filtered = hospitals.filter(h => h.toLowerCase().includes(filter.toLowerCase()));
-        
         filtered.forEach(h => {
             const div = document.createElement('div');
             div.className = 'hospital-item';
             div.textContent = h;
-            div.onmousedown = (e) => {
-                hInput.value = h; 
-                hList.style.display = 'none'; 
-            };
+            div.onmousedown = (e) => { hInput.value = h; hList.style.display = 'none'; };
             hList.appendChild(div);
         });
-
         if (filter && !hospitals.some(h => h.toLowerCase() === filter.toLowerCase())) {
             const custom = document.createElement('div');
             custom.className = 'hospital-item custom-option';
@@ -190,9 +192,9 @@
     // 4. WHATSAPP SUBMISSION
     document.getElementById('practiceForm').onsubmit = (e) => {
         e.preventDefault();
-        const dateInput = document.getElementById('date').value;
-        const dateParts = dateInput.split('-');
-        const formattedDate = dateParts.length > 2 ? `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}` : dateInput;
+        const dVal = dateInput.value;
+        const dParts = dVal.split('-');
+        const formattedDate = dParts.length > 2 ? `${dParts[2]}-${dParts[1]}-${dParts[0]}` : dVal;
 
         const text = `Hello Babitha!\n\n*New Booking Request*\n--------------------------\n*Surgeon:* ${document.getElementById('name').value}\n*Case:* ${document.getElementById('case').value}\n*Hospital:* ${hInput.value}\n*Date:* ${formattedDate}\n*Time:* ${document.getElementById('time').value}`;
         window.open(`https://wa.me/27826857224?text=${encodeURIComponent(text)}`, '_blank');
