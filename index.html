@@ -17,7 +17,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            margin: 0; padding: 5px 10px; /* Reduced top padding */
+            margin: 0; padding: 5px 10px;
             display: flex; justify-content: center;
         }
 
@@ -28,15 +28,16 @@
             border-radius: 16px; 
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             border-top: 6px solid var(--primary-dark);
-            margin-top: 5px; /* Reduced from 15px to 5px */
+            margin-top: 5px;
             text-align: center;
         }
 
-        .profile-main { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; }
+        .profile-main { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
+        .logo-small { height: 45px; margin-bottom: 8px; width: auto; }
+        
         h1 { font-family: 'Playfair Display', serif; color: var(--primary-dark); font-size: 1.9rem; margin: 0; }
         p.description { font-size: 0.85rem; color: #4a4a4a; margin-bottom: 20px; }
 
-        /* MODE SWITCHER */
         .mode-switcher {
             display: flex;
             background: rgba(0,0,0,0.05);
@@ -80,7 +81,6 @@
 
         textarea { height: 110px; resize: none; font-family: 'Inter', sans-serif; }
 
-        /* Consistent grey for Date/Time placeholders */
         input[type="date"]:before, input[type="time"]:before {
             content: attr(placeholder);
             color: var(--placeholder-color);
@@ -93,7 +93,6 @@
             display: none;
         }
 
-        /* Hospital Dropdown Arrow */
         .dropdown-wrapper:after {
             content: '▼';
             font-size: 10px;
@@ -116,7 +115,6 @@
         .hospital-item { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.9rem; }
         .hospital-item.custom-option { font-style: italic; color: #1c2a23; font-weight: 600; background: #f0f4f2; }
 
-        /* Button with Icon */
         button.submit-btn {
             width: 100%; background-color: var(--primary-dark); color: white;
             padding: 18px; border: none; border-radius: 12px;
@@ -138,6 +136,7 @@
 <div class="container">
     <img src="HeadShot.jpeg" alt="Babs" class="profile-main">
     <header>
+        <img src="Logo.png" alt="Logo" class="logo-small">
         <h1>Book Assistance</h1>
         <p class="description">Trusted by 20+ surgeons across Cape Town.</p>
         <div class="mode-switcher">
@@ -194,8 +193,8 @@
 </div>
 
 <script>
+    // JS Logic remains unchanged...
     let currentMode = 'book';
-
     function setMode(mode) {
         currentMode = mode;
         const bookSec = document.getElementById('bookingSection');
@@ -203,7 +202,6 @@
         const btnBook = document.getElementById('btnModeBook');
         const btnQuery = document.getElementById('btnModeQuery');
         const submitText = document.getElementById('submitBtnText');
-
         if (mode === 'book') {
             bookSec.style.display = 'block';
             querySec.style.display = 'none';
@@ -218,10 +216,8 @@
             submitText.innerText = 'Send Query via WhatsApp';
         }
     }
-
     const dateInput = document.getElementById('date');
     dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
-
     const pickerInputs = [dateInput, document.getElementById('time')];
     pickerInputs.forEach(input => {
         ['touchstart', 'click'].forEach(eventType => {
@@ -232,21 +228,9 @@
             });
         });
     });
-
-    const hospitals = [
-        "Mediclinic Milnerton", "Mediclinic Cape Gate", "Mediclinic Panorama", 
-        "Mediclinic Louis Leipoldt", "Mediclinic Durbanville", "Mediclinic Cape Town", 
-        "Mediclinic Constantiaberg", "Netcare Christiaan Barnard", "Netcare N1 City", 
-        "Netcare Kuilsriver", "Netcare Blaauwberg", "Life Kingsbury", "Life Vincent Pallotti", 
-        "Intercare Century City", "Advanced Health Surgical Centre - Durbanville", 
-        "Advanced Health Surgical Centre - Panaroma", "Cure Day Bellville", 
-        "Cure Day Foreshore", "Rondebosch Medical Centre", "Melomed Bellville", 
-        "Melomed Mitchells Plein"
-    ];
-
+    const hospitals = ["Mediclinic Milnerton", "Mediclinic Cape Gate", "Mediclinic Panorama", "Mediclinic Louis Leipoldt", "Mediclinic Durbanville", "Mediclinic Cape Town", "Mediclinic Constantiaberg", "Netcare Christiaan Barnard", "Netcare N1 City", "Netcare Kuilsriver", "Netcare Blaauwberg", "Life Kingsbury", "Life Vincent Pallotti", "Intercare Century City", "Advanced Health Surgical Centre - Durbanville", "Advanced Health Surgical Centre - Panaroma", "Cure Day Bellville", "Cure Day Foreshore", "Rondebosch Medical Centre", "Melomed Bellville", "Melomed Mitchells Plein"];
     const hInput = document.getElementById('hospitalInput');
     const hList = document.getElementById('hospitalList');
-
     function renderList(filter = "") {
         hList.innerHTML = '';
         const filtered = hospitals.filter(h => h.toLowerCase().includes(filter.toLowerCase()));
@@ -265,16 +249,13 @@
         }
         hList.style.display = filtered.length > 0 ? 'block' : 'none';
     }
-
     hInput.onfocus = () => renderList(hInput.value);
     hInput.oninput = (e) => renderList(e.target.value);
     hInput.onblur = () => setTimeout(() => { hList.style.display = 'none'; }, 200);
-
     document.getElementById('practiceForm').onsubmit = (e) => {
         e.preventDefault();
         const name = document.getElementById('name').value;
         let text = `Hello Babitha!\n\n`;
-
         if (currentMode === 'book') {
             const dVal = dateInput.value;
             const dParts = dVal.split('-');
@@ -283,7 +264,6 @@
         } else {
             text += `*General Query*\n--------------------------\n*From:* ${name}\n*Message:* ${document.getElementById('message').value}`;
         }
-        
         window.open(`https://wa.me/27826857224?text=${encodeURIComponent(text)}`, '_blank');
     };
 </script>
