@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta property="og:title" content="Dr. Babitha Babu | Surgical Assistance">
     <meta property="og:description" content="Professional surgical assistant services in Cape Town. Book a case or send a query.">
-    <meta property="og:image" content="https://https://surgicalassistant-drbabu.github.io/logo.jpeg">
+    <meta property="og:image" content="https://surgicalassistant-drbabu.github.io/logo.jpeg">
     <meta property="og:url" content="https://surgicalassistant-drbabu.github.io/">
     <title>Dr Babu | Surgical Assistance</title>
     <link rel="icon" type="image/png" href="logo.png">
@@ -36,115 +36,173 @@
             border-top: 6px solid var(--primary-dark);
             margin-top: 5px;
             text-align: center;
+            position: relative;
         }
 
         .profile-main { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; }
         .logo-small { height: 45px; margin-bottom: 8px; width: auto; }
         
         h1 { font-family: 'Playfair Display', serif; color: var(--primary-dark); font-size: 1.9rem; margin: 0; }
-        p.description { font-size: 0.85rem; color: #4a4a4a; margin-bottom: 20px; }
+        p.description { font-size: 0.85rem; color: #4a4a4a; margin-bottom: 10px; }
+
+        .profile-link { 
+            display: inline-block; 
+            font-size: 0.75rem; 
+            color: var(--primary-dark); 
+            text-decoration: underline; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-bottom: 20px;
+        }
+
+        /* MOBILE-FRIENDLY OVERLAY (Reverted to the liked version) */
+        #profileOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 5px; /* Matches container margin-top */
+            
+            /* WATERMARK FIX (Discreet Page Background) */
+            /* 1. Muted clinical grayscale/sepia filter */
+            filter: grayscale(0.9) brightness(1.2) contrast(1.1);
+            
+            /* 2. White at top fading into the image at bottom */
+            background-image: 
+                linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 80%, rgba(255,255,255,0) 100%),
+                url('TheatrePic.jpg');
+            
+            background-repeat: no-repeat;
+            
+            /* 3. Positioning: Bottom of image lines up with bottom of the SCREEN */
+            background-position: center bottom;
+            
+            /* 4. Scale: Image covers full width, height adjusted automatically */
+            background-size: 100% auto;
+        }
+
+        .overlay-content {
+            width: 100%; max-width: 400px;
+            /* Solid white background for pure legibility */
+            background: white;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-top: 6px solid var(--primary-dark);
+            position: relative;
+            margin: 0 10px;
+            box-sizing: border-box;
+            max-height: 95vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .overlay-inner {
+            position: relative; z-index: 2; /* Text above watermark */
+        }
+
+        .close-btn { 
+            position: absolute; top: 15px; right: 20px;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--primary-dark);
+            z-index: 3;
+        }
 
         .mode-switcher {
-            display: flex;
-            background: rgba(0,0,0,0.05);
-            padding: 4px;
-            border-radius: 10px;
-            margin: 0 0 20px 0;
+            display: flex; background: rgba(0,0,0,0.05); padding: 4px; border-radius: 10px; margin: 0 0 20px 0;
         }
         .mode-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            background: transparent;
-            color: var(--primary-dark);
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
+            flex: 1; padding: 10px; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: 600; 
+            cursor: pointer; background: transparent; color: var(--primary-dark); transition: all 0.3s ease; font-family: 'Inter', sans-serif;
         }
-        .mode-btn.active {
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+        .mode-btn.active { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
         form { text-align: left; border-top: 1px solid rgba(28, 42, 35, 0.1); padding-top: 20px; }
         .form-group { margin-bottom: 16px; position: relative; }
         .form-row { display: flex; gap: 12px; }
-        
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.7rem; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1.2px; }
 
         input, textarea {
-            width: 100%; padding: 14px;
-            background-color: rgba(255, 255, 255, 0.4); 
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 8px; box-sizing: border-box;
-            font-size: 16px; color: var(--text-color);
-            -webkit-appearance: none;
-            min-height: 50px;
+            width: 100%; padding: 14px; background-color: rgba(255, 255, 255, 0.4); 
+            border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-sizing: border-box;
+            font-size: 16px; color: var(--text-color); -webkit-appearance: none; min-height: 50px;
         }
 
         textarea { height: 110px; resize: none; font-family: 'Inter', sans-serif; }
 
-        input[type="date"]:before, input[type="time"]:before {
-            content: attr(placeholder);
-            color: var(--placeholder-color);
-            width: 100%;
-        }
-        
-        input[type="date"]:focus:before, input[type="date"]:valid:before,
-        input[type="time"]:focus:before, input[type="time"]:valid:before {
-            content: "";
-            display: none;
-        }
-
-        .dropdown-wrapper:after {
-            content: '▼';
-            font-size: 10px;
-            color: var(--primary-dark);
-            position: absolute;
-            right: 15px;
-            bottom: 18px;
-            pointer-events: none;
-            opacity: 0.6;
-        }
+        .dropdown-wrapper:after { content: '▼'; font-size: 10px; color: var(--primary-dark); position: absolute; right: 15px; bottom: 18px; pointer-events: none; opacity: 0.6; }
 
         .hospital-list {
-            position: absolute;
-            top: 100%; left: 0; right: 0;
-            background: white; border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            max-height: 200px; overflow-y: auto;
+            position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 200px; overflow-y: auto;
             display: none; z-index: 1000; margin-top: 4px;
         }
         .hospital-item { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.9rem; }
-        .hospital-item.custom-option { font-style: italic; color: #1c2a23; font-weight: 600; background: #f0f4f2; }
 
         button.submit-btn {
             width: 100%; background-color: var(--primary-dark); color: white;
-            padding: 18px; border: none; border-radius: 12px;
-            font-size: 1rem; font-weight: 600; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; gap: 12px;
-            margin-top: 10px;
-            transition: transform 0.2s ease;
+            padding: 18px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; 
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 10px;
         }
         
-        button.submit-btn:active { transform: scale(0.98); }
-
         .wa-icon { width: 20px; height: 20px; fill: white; }
-
         footer { margin-top: 25px; font-size: 0.65rem; color: #777; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
     </style>
 </head>
 <body>
 
+<div id="profileOverlay" onclick="toggleProfile()">
+    <div class="overlay-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="toggleProfile()">✕</span>
+        
+        <div class="overlay-inner">
+            <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-dark); margin: 10px 0 5px 0; font-size: 1.6rem;">Dr. Babitha Babu</h2>
+            <p style="font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;">Surgical Assistant | Cape Town</p>
+
+            <div style="text-align: left; font-size: 0.85rem; line-height: 1.5; color: var(--text-color);">
+                <p>
+                    I provide dedicated surgical assistance across Cape Town’s private sector, bringing clinical adaptability and a high-level grasp of musculoskeletal anatomy to every list. My focus is on supporting surgeons to work with maximum confidence and efficiency.
+                </p>
+
+                <h3 style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary-dark); margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Clinical Experience</h3>
+                <ul style="padding-left: 18px; margin: 10px 0;">
+                    <li style="margin-bottom: 5px;"><strong>300+ Cases</strong> across 20+ Private Hospitals (Mediclinic, Life, Netcare).</li>
+                    <li style="margin-bottom: 5px;">
+                        <strong>General Surgery:</strong> 130+ cases
+                        <ul style="padding-left: 15px; margin-top: 4px; list-style-type: circle; color: #555;">
+                            <li>Laparoscopic (0° and 30° lens): 70+ cases</li>
+                        </ul>
+                    </li>
+                    <li style="margin-bottom: 5px;"><strong>Orthopaedics:</strong> 120+ cases.</li>
+                    <li style="margin-bottom: 5px;"><strong>Paediatric Surgery:</strong> 60+ cases.</li>
+                    <li style="margin-bottom: 5px;"><strong>Additional Exposure:</strong> Plastics, Vascular, Gynae, and Colorectal.</li>
+                </ul>
+
+                <h3 style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary-dark); margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Technical Competencies</h3>
+                <p style="margin-top: 10px;">
+                    Skilled in atraumatic tissue handling, precise retraction, and maintaining optimal surgical exposure. Known for a calm theatre presence and anticipation of procedural flow.
+                </p>
+
+                <p style="font-size: 0.8rem; font-style: italic; margin-top: 20px; color: #555;">
+                    • Available for regular & ad hoc lists • Valid indemnity insurance
+                </p>
+            </div>
+
+            <a href="CV_Dr_Babitha_Babu.pdf" target="_blank" style="display:block; text-align: center; margin-top: 20px; padding: 14px; background: var(--primary-dark); color: white; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">Download Professional CV (PDF)</a>
+        </div>
+    </div>
+</div>
+
 <div class="container">
-    <img src="HeadShot.jpeg" alt="Babs" class="profile-main">
+    <img src="HeadShot.jpeg" alt="Dr Babu" class="profile-main">
     <header>
         <img src="logo.png" alt="Logo" class="logo-small">
         <h1>Book Assistance</h1>
         <p class="description">Trusted by 20+ surgeons across Cape Town.</p>
+        
+        <span class="profile-link" onclick="toggleProfile()">View Professional Profile →</span>
+
         <div class="mode-switcher">
             <button type="button" class="mode-btn active" id="btnModeBook" onclick="setMode('book')">Book Case</button>
             <button type="button" class="mode-btn" id="btnModeQuery" onclick="setMode('query')">General Query</button>
@@ -172,11 +230,11 @@
             <div class="form-row">
                 <div class="form-group" style="flex:1">
                     <label>Date</label>
-                    <input type="date" id="date" placeholder="Date">
+                    <input type="date" id="date">
                 </div>
                 <div class="form-group" style="flex:1">
                     <label>Time</label>
-                    <input type="time" id="time" placeholder="Time">
+                    <input type="time" id="time">
                 </div>
             </div>
         </div>
@@ -189,9 +247,7 @@
         </div>
 
         <button type="submit" class="submit-btn">
-            <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.6-9.3 1.9-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
-            </svg>
+            <svg class="wa-icon" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.6-9.3 1.9-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
             <span id="submitBtnText">Send via WhatsApp</span>
         </button>
     </form>
@@ -199,7 +255,11 @@
 </div>
 
 <script>
-    // JS Logic remains unchanged...
+    function toggleProfile() {
+        const overlay = document.getElementById('profileOverlay');
+        overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
+    }
+
     let currentMode = 'book';
     function setMode(mode) {
         currentMode = mode;
@@ -209,31 +269,15 @@
         const btnQuery = document.getElementById('btnModeQuery');
         const submitText = document.getElementById('submitBtnText');
         if (mode === 'book') {
-            bookSec.style.display = 'block';
-            querySec.style.display = 'none';
-            btnBook.classList.add('active');
-            btnQuery.classList.remove('active');
+            bookSec.style.display = 'block'; querySec.style.display = 'none';
+            btnBook.classList.add('active'); btnQuery.classList.remove('active');
             submitText.innerText = 'Send via WhatsApp';
         } else {
-            bookSec.style.display = 'none';
-            querySec.style.display = 'block';
-            btnBook.classList.remove('active');
-            btnQuery.classList.add('active');
+            bookSec.style.display = 'none'; querySec.style.display = 'block';
+            btnBook.classList.remove('active'); btnQuery.classList.add('active');
             submitText.innerText = 'Send Query via WhatsApp';
         }
     }
-    const dateInput = document.getElementById('date');
-    dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
-    const pickerInputs = [dateInput, document.getElementById('time')];
-    pickerInputs.forEach(input => {
-        ['touchstart', 'click'].forEach(eventType => {
-            input.addEventListener(eventType, function(e) {
-                if ('showPicker' in HTMLInputElement.prototype) {
-                    try { this.showPicker(); } catch (err) {}
-                }
-            });
-        });
-    });
     const hospitals = ["Mediclinic Milnerton", "Mediclinic Cape Gate", "Mediclinic Panorama", "Mediclinic Louis Leipoldt", "Mediclinic Durbanville", "Mediclinic Cape Town", "Mediclinic Constantiaberg", "Netcare Christiaan Barnard", "Netcare N1 City", "Netcare Kuilsriver", "Netcare Blaauwberg", "Life Kingsbury", "Life Vincent Pallotti", "Intercare Century City", "Advanced Health Surgical Centre - Durbanville", "Advanced Health Surgical Centre - Panaroma", "Cure Day Bellville", "Cure Day Foreshore", "Rondebosch Medical Centre", "Melomed Bellville", "Melomed Mitchells Plein"];
     const hInput = document.getElementById('hospitalInput');
     const hList = document.getElementById('hospitalList');
@@ -244,15 +288,9 @@
             const div = document.createElement('div');
             div.className = 'hospital-item';
             div.textContent = h;
-            div.onmousedown = (e) => { hInput.value = h; hList.style.display = 'none'; };
+            div.onmousedown = () => { hInput.value = h; hList.style.display = 'none'; };
             hList.appendChild(div);
         });
-        if (filter && !hospitals.some(h => h.toLowerCase() === filter.toLowerCase())) {
-            const custom = document.createElement('div');
-            custom.className = 'hospital-item custom-option';
-            custom.textContent = `Use: "${filter}"`;
-            hList.appendChild(custom);
-        }
         hList.style.display = filtered.length > 0 ? 'block' : 'none';
     }
     hInput.onfocus = () => renderList(hInput.value);
@@ -263,12 +301,9 @@
         const name = document.getElementById('name').value;
         let text = `Hello Babitha!\n\n`;
         if (currentMode === 'book') {
-            const dVal = dateInput.value;
-            const dParts = dVal.split('-');
-            const formattedDate = dParts.length > 2 ? `${dParts[2]}-${dParts[1]}-${dParts[0]}` : dVal;
-            text += `*New Booking Request*\n--------------------------\n*Surgeon:* ${name}\n*Case:* ${document.getElementById('case').value}\n*Hospital:* ${hInput.value}\n*Date:* ${formattedDate}\n*Time:* ${document.getElementById('time').value}`;
+            text += `*New Booking Request*\n*Surgeon:* ${name}\n*Case:* ${document.getElementById('case').value}\n*Hospital:* ${hInput.value}\n*Date:* ${document.getElementById('date').value}\n*Time:* ${document.getElementById('time').value}`;
         } else {
-            text += `*General Query*\n--------------------------\n*From:* ${name}\n*Message:* ${document.getElementById('message').value}`;
+            text += `*General Query*\n*From:* ${name}\n*Message:* ${document.getElementById('message').value}`;
         }
         window.open(`https://wa.me/27826857224?text=${encodeURIComponent(text)}`, '_blank');
     };
