@@ -11,6 +11,7 @@
             --bg-color: #f4f9f9;       
             --text-color: #2c3e50;
             --main-card: #d9d9d8; 
+            --placeholder-color: #757575; 
         }
 
         body {
@@ -35,15 +36,39 @@
         h1 { font-family: 'Playfair Display', serif; color: var(--primary-dark); font-size: 1.9rem; margin: 0; }
         p.description { font-size: 0.85rem; color: #4a4a4a; margin-bottom: 20px; }
 
+        /* MODE SWITCHER */
+        .mode-switcher {
+            display: flex;
+            background: rgba(0,0,0,0.05);
+            padding: 4px;
+            border-radius: 10px;
+            margin: 0 0 20px 0;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            color: var(--primary-dark);
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .mode-btn.active {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
         form { text-align: left; border-top: 1px solid rgba(28, 42, 35, 0.1); padding-top: 20px; }
         .form-group { margin-bottom: 16px; position: relative; }
         .form-row { display: flex; gap: 12px; }
         
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.7rem; color: var(--primary-dark); text-transform: uppercase; letter-spacing: 1.2px; }
 
-        /* THE FIX: Native pickers often look weird as type="date" by default. 
-           We style them to look like text inputs until they are clicked. */
-        input {
+        input, textarea {
             width: 100%; padding: 14px;
             background-color: rgba(255, 255, 255, 0.4); 
             border: 1px solid rgba(0,0,0,0.08);
@@ -53,19 +78,33 @@
             min-height: 50px;
         }
 
-        /* Forces the placeholder to show on date/time inputs on some browsers */
+        textarea { height: 110px; resize: none; font-family: 'Inter', sans-serif; }
+
+        /* Consistent grey for Date/Time placeholders */
         input[type="date"]:before, input[type="time"]:before {
             content: attr(placeholder);
-            color: var(--text-color);
-            margin-right: 0.5em;
+            color: var(--placeholder-color);
+            width: 100%;
         }
+        
         input[type="date"]:focus:before, input[type="date"]:valid:before,
         input[type="time"]:focus:before, input[type="time"]:valid:before {
             content: "";
             display: none;
         }
 
-        .dropdown-wrapper { position: relative; }
+        /* Hospital Dropdown Arrow */
+        .dropdown-wrapper:after {
+            content: '▼';
+            font-size: 10px;
+            color: var(--primary-dark);
+            position: absolute;
+            right: 15px;
+            bottom: 18px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
         .hospital-list {
             position: absolute;
             top: 100%; left: 0; right: 0;
@@ -77,13 +116,21 @@
         .hospital-item { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.9rem; }
         .hospital-item.custom-option { font-style: italic; color: #1c2a23; font-weight: 600; background: #f0f4f2; }
 
+        /* Button with Icon */
         button.submit-btn {
             width: 100%; background-color: var(--primary-dark); color: white;
             padding: 18px; border: none; border-radius: 12px;
             font-size: 1rem; font-weight: 600; cursor: pointer;
             display: flex; justify-content: center; align-items: center; gap: 12px;
             margin-top: 10px;
+            transition: transform 0.2s ease;
         }
+        
+        button.submit-btn:active { transform: scale(0.98); }
+
+        .wa-icon { width: 20px; height: 20px; fill: white; }
+
+        footer { margin-top: 25px; font-size: 0.65rem; color: #777; letter-spacing: 1px; text-transform: uppercase; text-align: center; }
     </style>
 </head>
 <body>
@@ -91,8 +138,12 @@
 <div class="container">
     <img src="HeadShot.jpeg" alt="Babs" class="profile-main">
     <header>
-        <h1>Book Assistance</h1>
+        <h1>Dr Babu's Practice</h1>
         <p class="description">Trusted by 20+ surgeons across Cape Town.</p>
+        <div class="mode-switcher">
+            <button type="button" class="mode-btn active" id="btnModeBook" onclick="setMode('book')">Book Case</button>
+            <button type="button" class="mode-btn" id="btnModeQuery" onclick="setMode('query')">General Query</button>
+        </div>
     </header>
 
     <form id="practiceForm" autocomplete="off">
@@ -101,57 +152,87 @@
             <input type="text" id="name" placeholder="Dr. Jane Smith" required>
         </div>
         
-        <div class="form-group">
-            <label>Case Details</label>
-            <input type="text" id="case" placeholder="e.g. Total Hip Replacement" required>
-        </div>
-
-        <div class="form-group dropdown-wrapper">
-            <label>Hospital</label>
-            <input type="text" id="hospitalInput" placeholder="Select or type hospital..." required>
-            <div id="hospitalList" class="hospital-list"></div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group" style="flex:1">
-                <label>Date</label>
-                <input type="date" id="date" placeholder="Date" required>
+        <div id="bookingSection">
+            <div class="form-group">
+                <label>Case Details</label>
+                <input type="text" id="case" placeholder="e.g. Total Hip Replacement">
             </div>
-            <div class="form-group" style="flex:1">
-                <label>Time</label>
-                <input type="time" id="time" placeholder="Time" required>
+
+            <div class="form-group dropdown-wrapper">
+                <label>Hospital</label>
+                <input type="text" id="hospitalInput" placeholder="Select or type hospital...">
+                <div id="hospitalList" class="hospital-list"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex:1">
+                    <label>Date</label>
+                    <input type="date" id="date" placeholder="Date">
+                </div>
+                <div class="form-group" style="flex:1">
+                    <label>Time</label>
+                    <input type="time" id="time" placeholder="Time">
+                </div>
             </div>
         </div>
 
-        <button type="submit" class="submit-btn">Send via WhatsApp</button>
+        <div id="querySection" style="display: none;">
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="message" placeholder="How can I help you?"></textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.5-11.3 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.3 3.7-5.6 5.6-9.3 1.9-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.5 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </svg>
+            <span id="submitBtnText">Send via WhatsApp</span>
+        </button>
     </form>
+    <footer>&copy; 2026 Dr Babu's Practice &bull; Cape Town, ZA</footer>
 </div>
 
 <script>
-    // 1. SET MIN DATE (TODAY)
-    const dateInput = document.getElementById('date');
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
+    let currentMode = 'book';
 
-    // 2. THE "SINGLE TAP" TRIGGER
-    // We attach it to both date and time inputs
-    const inputs = [dateInput, document.getElementById('time')];
-    inputs.forEach(input => {
-        // Trigger on the very first touch or click
+    function setMode(mode) {
+        currentMode = mode;
+        const bookSec = document.getElementById('bookingSection');
+        const querySec = document.getElementById('querySection');
+        const btnBook = document.getElementById('btnModeBook');
+        const btnQuery = document.getElementById('btnModeQuery');
+        const submitText = document.getElementById('submitBtnText');
+
+        if (mode === 'book') {
+            bookSec.style.display = 'block';
+            querySec.style.display = 'none';
+            btnBook.classList.add('active');
+            btnQuery.classList.remove('active');
+            submitText.innerText = 'Send via WhatsApp';
+        } else {
+            bookSec.style.display = 'none';
+            querySec.style.display = 'block';
+            btnBook.classList.remove('active');
+            btnQuery.classList.add('active');
+            submitText.innerText = 'Send Query via WhatsApp';
+        }
+    }
+
+    const dateInput = document.getElementById('date');
+    dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+
+    const pickerInputs = [dateInput, document.getElementById('time')];
+    pickerInputs.forEach(input => {
         ['touchstart', 'click'].forEach(eventType => {
             input.addEventListener(eventType, function(e) {
                 if ('showPicker' in HTMLInputElement.prototype) {
-                    try {
-                        this.showPicker();
-                    } catch (err) {
-                        // Fallback: the focus event usually handles it
-                    }
+                    try { this.showPicker(); } catch (err) {}
                 }
             });
         });
     });
 
-    // 3. HOSPITAL LIST DATA & LOGIC
     const hospitals = [
         "Mediclinic Milnerton", "Mediclinic Cape Gate", "Mediclinic Panorama", 
         "Mediclinic Louis Leipoldt", "Mediclinic Durbanville", "Mediclinic Cape Town", 
@@ -182,21 +263,27 @@
             custom.textContent = `Use: "${filter}"`;
             hList.appendChild(custom);
         }
-        hList.style.display = 'block';
+        hList.style.display = filtered.length > 0 ? 'block' : 'none';
     }
 
     hInput.onfocus = () => renderList(hInput.value);
     hInput.oninput = (e) => renderList(e.target.value);
     hInput.onblur = () => setTimeout(() => { hList.style.display = 'none'; }, 200);
 
-    // 4. WHATSAPP SUBMISSION
     document.getElementById('practiceForm').onsubmit = (e) => {
         e.preventDefault();
-        const dVal = dateInput.value;
-        const dParts = dVal.split('-');
-        const formattedDate = dParts.length > 2 ? `${dParts[2]}-${dParts[1]}-${dParts[0]}` : dVal;
+        const name = document.getElementById('name').value;
+        let text = `Hello Babitha!\n\n`;
 
-        const text = `Hello Babitha!\n\n*New Booking Request*\n--------------------------\n*Surgeon:* ${document.getElementById('name').value}\n*Case:* ${document.getElementById('case').value}\n*Hospital:* ${hInput.value}\n*Date:* ${formattedDate}\n*Time:* ${document.getElementById('time').value}`;
+        if (currentMode === 'book') {
+            const dVal = dateInput.value;
+            const dParts = dVal.split('-');
+            const formattedDate = dParts.length > 2 ? `${dParts[2]}-${dParts[1]}-${dParts[0]}` : dVal;
+            text += `*New Booking Request*\n--------------------------\n*Surgeon:* ${name}\n*Case:* ${document.getElementById('case').value}\n*Hospital:* ${hInput.value}\n*Date:* ${formattedDate}\n*Time:* ${document.getElementById('time').value}`;
+        } else {
+            text += `*General Query*\n--------------------------\n*From:* ${name}\n*Message:* ${document.getElementById('message').value}`;
+        }
+        
         window.open(`https://wa.me/27826857224?text=${encodeURIComponent(text)}`, '_blank');
     };
 </script>
