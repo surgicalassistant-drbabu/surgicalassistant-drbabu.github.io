@@ -180,7 +180,30 @@
 
         <div class="form-group">
             <label for="hospital">Hospital</label>
-            <input type="text" id="hospital" placeholder="e.g. Mediclinic Cape Town" required>
+            <input list="hospital-options" id="hospital" placeholder="Select or type hospital..." required>
+            <datalist id="hospital-options">
+                <option value="Mediclinic Milnerton">
+                <option value="Mediclinic Cape Gate">
+                <option value="Mediclinic Panorama">
+                <option value="Mediclinic Louis Leipoldt">
+                <option value="Mediclinic Durbanville">
+                <option value="Mediclinic Cape Town">
+                <option value="Mediclinic Constantiaberg">
+                <option value="Netcare Christiaan Barnard">
+                <option value="Netcare N1 City">
+                <option value="Netcare Kuilsriver">
+                <option value="Netcare Blaauwberg">
+                <option value="Life Kingsbury">
+                <option value="Life Vincent Pallotti">
+                <option value="Intercare Century City">
+                <option value="Advanced Health Surgical Centre (Panorama)">
+                <option value="Advanced Health Surgical Centre (Durbanville)"></option>
+                <option value="Cure Day Bellville">
+                <option value="Cure Day Foreshore">
+                <option value="Rondebosch Medical Centre">
+                <option value="Melomed Bellville">
+                <option value="Melomed Mitchells Plein">
+            </datalist>
         </div>
 
         <div class="form-row">
@@ -212,12 +235,10 @@
 </div>
 
 <script>
-    // 1. Set Min Date to Today
     const dateField = document.getElementById('date');
     const today = new Date().toISOString().split('T')[0];
     dateField.setAttribute('min', today);
 
-    // 2. Android 1-Tap Picker Fix
     function handleInputFocus(input, type) {
         input.type = type;
         if ('showPicker' in HTMLInputElement.prototype) {
@@ -227,7 +248,6 @@
         }
     }
 
-    // 3. Form Submit
     document.getElementById('practiceForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const number = "27826857224"; 
