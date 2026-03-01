@@ -47,9 +47,9 @@
             border: 1px solid rgba(0,0,0,0.08);
             border-radius: 8px; box-sizing: border-box;
             font-size: 16px; color: var(--text-color);
+            -webkit-appearance: none;
         }
 
-        /* CUSTOM DROPDOWN STYLING */
         .dropdown-wrapper { position: relative; }
         .hospital-list {
             position: absolute;
@@ -111,11 +111,15 @@
         <div class="form-row">
             <div class="form-group" style="flex:1">
                 <label>Date</label>
-                <input type="text" id="date" placeholder="DD-MM-YYYY" onfocus="(this.type='date')" required>
+                <input type="text" id="date" placeholder="DD-MM-YYYY" 
+                       onfocus="forcePicker(this, 'date')" 
+                       onclick="forcePicker(this, 'date')" required>
             </div>
             <div class="form-group" style="flex:1">
                 <label>Time</label>
-                <input type="text" id="time" placeholder="HH:MM" onfocus="(this.type='time')" required>
+                <input type="text" id="time" placeholder="HH:MM" 
+                       onfocus="forcePicker(this, 'time')" 
+                       onclick="forcePicker(this, 'time')" required>
             </div>
         </div>
 
@@ -124,15 +128,34 @@
 </div>
 
 <script>
+    // 1. HOSPITAL LIST DATA
     const hospitals = [
         "Mediclinic Milnerton", "Mediclinic Cape Gate", "Mediclinic Panorama", 
         "Mediclinic Louis Leipoldt", "Mediclinic Durbanville", "Mediclinic Cape Town", 
         "Mediclinic Constantiaberg", "Netcare Christiaan Barnard", "Netcare N1 City", 
         "Netcare Kuilsriver", "Netcare Blaauwberg", "Life Kingsbury", "Life Vincent Pallotti", 
-        "Intercare Century City", "Advanced Health Surgical Centre", "Cure Day Bellville", 
-        "Cure Day Foreshore", "Rondebosch Medical Centre", "Melomed Bellville", "Melomed Mitchells Plein"
+        "Intercare Century City", "Advanced Health Surgical Centre - Durbanville", 
+        "Advanced Health Surgical Centre - Panaroma", "Cure Day Bellville", 
+        "Cure Day Foreshore", "Rondebosch Medical Centre", "Melomed Bellville", 
+        "Melomed Mitchells Plein"
     ];
 
+    // 2. DISABLE PAST DATES & SINGLE-TAP PICKER
+    function forcePicker(input, type) {
+        input.type = type;
+        
+        // Disable past dates logic
+        if (type === 'date') {
+            const today = new Date().toISOString().split('T')[0];
+            input.setAttribute('min', today);
+        }
+
+        if ('showPicker' in HTMLInputElement.prototype) {
+            try { input.showPicker(); } catch (e) {}
+        }
+    }
+
+    // 3. SEARCHABLE HOSPITAL DROPDOWN
     const hInput = document.getElementById('hospitalInput');
     const hList = document.getElementById('hospitalList');
 
@@ -144,7 +167,10 @@
             const div = document.createElement('div');
             div.className = 'hospital-item';
             div.textContent = h;
-            div.onclick = () => { hInput.value = h; hList.style.display = 'none'; };
+            div.onmousedown = (e) => {
+                hInput.value = h; 
+                hList.style.display = 'none'; 
+            };
             hList.appendChild(div);
         });
 
@@ -152,7 +178,6 @@
             const custom = document.createElement('div');
             custom.className = 'hospital-item custom-option';
             custom.textContent = `Use: "${filter}"`;
-            custom.onclick = () => { hList.style.display = 'none'; };
             hList.appendChild(custom);
         }
         hList.style.display = 'block';
@@ -160,17 +185,14 @@
 
     hInput.onfocus = () => renderList(hInput.value);
     hInput.oninput = (e) => renderList(e.target.value);
-    
-    // Close list when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown-wrapper')) hList.style.display = 'none';
-    });
+    hInput.onblur = () => setTimeout(() => { hList.style.display = 'none'; }, 200);
 
+    // 4. WHATSAPP SUBMISSION
     document.getElementById('practiceForm').onsubmit = (e) => {
         e.preventDefault();
         const dateInput = document.getElementById('date').value;
         const dateParts = dateInput.split('-');
-        const formattedDate = dateParts.length > 1 ? `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}` : dateInput;
+        const formattedDate = dateParts.length > 2 ? `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}` : dateInput;
 
         const text = `Hello Babitha!\n\n*New Booking Request*\n--------------------------\n*Surgeon:* ${document.getElementById('name').value}\n*Case:* ${document.getElementById('case').value}\n*Hospital:* ${hInput.value}\n*Date:* ${formattedDate}\n*Time:* ${document.getElementById('time').value}`;
         window.open(`https://wa.me/27826857224?text=${encodeURIComponent(text)}`, '_blank');
