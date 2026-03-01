@@ -88,16 +88,45 @@
             z-index: 3;
         }
 
-        .theatre-pic-top {
+        .flip-container {
+            perspective: 1000px;
             width: 120px;
             height: 120px;
+            margin: 15px auto 10px auto;
+        }
+
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-container.do-flip .flipper {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .back {
+            transform: rotateY(180deg);
+        }
+
+        .theatre-pic-top {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             filter: grayscale(0.2) contrast(1.1);
-            margin: 15px auto 10px auto;
             display: block;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .cv-rect-btn {
@@ -140,16 +169,12 @@
             width: 100%; padding: 14px; background-color: rgba(255, 255, 255, 0.4); 
             border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-sizing: border-box;
             font-size: 16px; color: var(--text-color);
-            min-height: 48px; /* Forces consistent height across iOS */
-            appearance: none; /* Removes default iOS inner shadow/styling */
+            min-height: 48px;
+            appearance: none;
             -webkit-appearance: none;
         }
 
-        /* Specific fix for Date/Time alignment on iPhone */
-        input[type="date"], input[type="time"] {
-            display: block;
-            line-height: 1.2;
-        }
+        input[type="date"], input[type="time"] { display: block; line-height: 1.2; }
 
         .hospital-list {
             position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 8px;
@@ -176,7 +201,16 @@
         <span class="close-btn" onclick="toggleProfile()">✕</span>
         
         <div class="overlay-inner">
-            <img src="TheatrePic.jpg" alt="Dr. Babu in Theatre" class="theatre-pic-top">
+            <div class="flip-container" id="profileFlip">
+                <div class="flipper">
+                    <div class="front">
+                        <img src="HeadShot.jpeg" alt="Dr. Babu" class="theatre-pic-top">
+                    </div>
+                    <div class="back">
+                        <img src="TheatrePic.jpg" alt="Dr. Babu in Theatre" class="theatre-pic-top">
+                    </div>
+                </div>
+            </div>
 
             <h2 style="font-family: 'Playfair Display', serif; color: var(--primary-dark); margin: 0 0 5px 0; font-size: 1.6rem; text-align: center;">Dr. Babitha Babu</h2>
             <p style="font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; text-align: center;">Surgical Assistant | Cape Town</p>
@@ -248,9 +282,22 @@
 </div>
 
 <script>
+    let flipTimeout;
+
     function toggleProfile() {
         const overlay = document.getElementById('profileOverlay');
-        overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
+        const flipCont = document.getElementById('profileFlip');
+        
+        if (overlay.style.display === 'flex') {
+            overlay.style.display = 'none';
+            flipCont.classList.remove('do-flip');
+            clearTimeout(flipTimeout);
+        } else {
+            overlay.style.display = 'flex';
+            flipTimeout = setTimeout(() => {
+                flipCont.classList.add('do-flip');
+            }, 1000);
+        }
     }
 
     let currentMode = 'book';
