@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Babs' Practice | Surgical Assistance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-dark: #194b4b;   
+            --primary-dark: #1c2a23;   
             --accent-light: #76d1d1;   
             --bg-color: #f4f9f9;       
             --text-color: #2c3e50;
-            --white: #ffffff;
-            --placeholder-grey: #a9a9a9;
+            --main-card: #d9d9d8; 
+            --placeholder-grey: #7a7a7a; 
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -28,127 +29,129 @@
         .container {
             width: 100%;
             max-width: 400px;
-            background: var(--white);
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            background: var(--main-card);
+            padding: 25px 30px;
+            border-radius: 16px; /* Slightly more rounded for premium feel */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
             border-top: 6px solid var(--primary-dark);
-            margin-top: 20px;
+            margin-top: 15px;
             text-align: center;
         }
 
-        /* 1. Profile Picture - Larger & Inside */
         .profile-main {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--accent-light);
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: inline-block;
+            /* No border as requested */
         }
 
-        header {
-            margin-bottom: 25px;
-        }
+        header { margin-bottom: 15px; }
 
         h1 {
+            font-family: 'Playfair Display', serif;
             color: var(--primary-dark);
-            font-size: 1.8rem;
-            margin: 0 0 8px 0;
+            font-size: 1.9rem;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.5px;
         }
 
         p.description {
             font-size: 0.85rem;
             line-height: 1.5;
-            color: #777;
-            font-style: italic;
-            margin-bottom: 15px;
+            color: #4a4a4a;
+            margin: 0 0 10px 0;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
         }
 
-        /* 2. Logo - No Border */
         .logo-header {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 50%; /* Round logo often looks more "seal-like" */
             margin: 0 auto;
             display: block;
         }
 
-        /* Form Alignment */
         form {
             text-align: left;
-            margin-top: 25px;
-            border-top: 1px solid #f0f0f0;
-            padding-top: 25px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(28, 42, 35, 0.1);
+            padding-top: 20px;
         }
 
-        .form-group { margin-bottom: 18px; }
+        .form-group { margin-bottom: 16px; }
         
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--primary-dark);
             text-transform: uppercase;
+            letter-spacing: 1.2px; /* Premium tracking */
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
+            padding: 14px;
+            background-color: rgba(255, 255, 255, 0.25); /* Frosted glass effect */
+            border: 1px solid rgba(0,0,0,0.08);
             border-radius: 8px;
             box-sizing: border-box;
-            font-size: 16px;
-            font-family: inherit;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
             color: var(--text-color);
+            transition: all 0.2s ease;
         }
 
-        /* Normal Case Placeholders */
+        input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-color: var(--primary-dark);
+        }
+
         ::placeholder {
             color: var(--placeholder-grey);
-            text-transform: none; /* Removed All Caps */
-        }
-
-        /* 3. Date Picker - Remains Uppercase & Grey */
-        input[type="date"] {
-            color: var(--placeholder-grey);
-            text-transform: uppercase;
-        }
-
-        input[type="date"]:focus, 
-        input[type="date"]:valid {
-            color: var(--text-color);
+            text-transform: none;
         }
 
         button {
             width: 100%;
             background-color: var(--primary-dark);
             color: white;
-            padding: 16px;
+            padding: 18px;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 12px;
             margin-top: 10px;
-            transition: background 0.3s;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        button:hover { background-color: #25D366; }
+        button:hover { 
+            background-color: #23362d; /* Slightly lighter version of your green */
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(28, 42, 35, 0.2);
+        }
 
-        .wa-icon { width: 22px; height: 22px; fill: white; }
+        .wa-icon { width: 18px; height: 18px; fill: white; }
 
         footer {
-            margin-top: 25px;
-            font-size: 0.7rem;
-            color: #bbb;
+            margin-top: 20px;
+            font-size: 0.65rem;
+            color: #777;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -160,7 +163,7 @@
     <header>
         <h1>Book Assistance</h1>
         <p class="description">
-            Trusted by 20+ surgeons across private hospitals in Cape Town.
+            Trusted by 20+ surgeons across Cape Town.
         </p>
         <img src="logo.png" alt="Logo" class="logo-header">
     </header>
@@ -183,7 +186,9 @@
 
         <div class="form-group">
             <label for="date">Date of Surgery</label>
-            <input type="date" id="date" required>
+            <input type="text" id="date" placeholder="DD-MM-YYYY" 
+                   onfocus="(this.type='date')" 
+                   onblur="if(!this.value)this.type='text'" required>
         </div>
 
         <button type="submit">
@@ -195,7 +200,7 @@
     </form>
 
     <footer>
-        &copy; 2026 Babs' Practice. Cape Town, SA.
+        &copy; 2026 Babs' Practice &bull; Cape Town
     </footer>
 </div>
 
