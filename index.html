@@ -96,11 +96,10 @@
             filter: grayscale(0.2) contrast(1.1);
             margin: 15px auto 10px auto;
             display: block;
-            border: none; /* REMOVED BORDER AS REQUESTED */
+            border: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        /* UPDATED RECTANGLE BUTTON TO MATCH WHATSAPP BUTTON */
         .cv-rect-btn {
             display: flex;
             justify-content: center;
@@ -111,7 +110,7 @@
             color: white;
             text-decoration: none;
             padding: 18px;
-            border-radius: 12px; /* Matches the submit button */
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             margin-top: 25px;
@@ -141,6 +140,15 @@
             width: 100%; padding: 14px; background-color: rgba(255, 255, 255, 0.4); 
             border: 1px solid rgba(0,0,0,0.08); border-radius: 8px; box-sizing: border-box;
             font-size: 16px; color: var(--text-color);
+            min-height: 48px; /* Forces consistent height across iOS */
+            appearance: none; /* Removes default iOS inner shadow/styling */
+            -webkit-appearance: none;
+        }
+
+        /* Specific fix for Date/Time alignment on iPhone */
+        input[type="date"], input[type="time"] {
+            display: block;
+            line-height: 1.2;
         }
 
         .hospital-list {
@@ -225,7 +233,10 @@
         <div id="bookingSection">
             <div class="form-group"><label>Case Details</label><input type="text" id="case" placeholder="e.g. Total Hip Replacement"></div>
             <div class="form-group"><label>Hospital</label><input type="text" id="hospitalInput" placeholder="Select hospital..."><div id="hospitalList" class="hospital-list"></div></div>
-            <div style="display:flex; gap:12px;"><div class="form-group" style="flex:1"><label>Date</label><input type="date" id="date"></div><div class="form-group" style="flex:1"><label>Time</label><input type="time" id="time"></div></div>
+            <div style="display:flex; gap:12px;">
+                <div class="form-group" style="flex:1"><label>Date</label><input type="date" id="date"></div>
+                <div class="form-group" style="flex:1"><label>Time</label><input type="time" id="time"></div>
+            </div>
         </div>
         <div id="querySection" style="display: none;"><div class="form-group"><label>Message</label><textarea id="message" placeholder="How can I help you?"></textarea></div></div>
         <button type="submit" class="submit-btn" style="margin-top:15px;">
