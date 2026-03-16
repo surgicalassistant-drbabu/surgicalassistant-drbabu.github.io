@@ -83,9 +83,10 @@
         .overlay-inner { padding: 25px 30px; }
 
         .close-btn { 
-            position: absolute; top: 15px; right: 20px;
-            font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--primary-dark);
-            z-index: 3;
+            position: sticky; top: 15px; right: 15px; float: right;
+            font-size: 1.5rem; font-weight: bold; cursor: pointer; color: var(--primary-dark);
+            z-index: 10; 
+            padding: 10px
         }
 
         .flip-container {
@@ -130,12 +131,17 @@
         }
 
         .cv-rect-btn {
+            position: sticky;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 12px;
             width: 100%;
             background: var(--primary-dark);
+            z-index: 10;
             color: white;
             text-decoration: none;
             padding: 18px;
@@ -263,7 +269,7 @@
     </header>
 
     <form id="practiceForm">
-        <div class="form-group"><label>Full Name</label><input type="text" id="name" placeholder="Dr. John Smit" required></div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="name" placeholder="e.g. Dr. John Smit" required></div>
         <div id="bookingSection">
             <div class="form-group"><label>Case Details</label><input type="text" id="case" placeholder="e.g. Total Hip Replacement"></div>
             <div class="form-group"><label>Hospital</label><input type="text" id="hospitalInput" placeholder="Select hospital..."><div id="hospitalList" class="hospital-list"></div></div>
