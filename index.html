@@ -63,7 +63,7 @@
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        
+
         #profileOverlay {
             display: none;
             position: fixed;
@@ -89,6 +89,8 @@
             overflow-y: auto;
             text-align: center;
             animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            max-height: 88vh;
+            padding-bottom: 40px;
         }
 
         .overlay-inner { padding: 25px 30px; }
@@ -143,7 +145,7 @@
 
         .cv-rect-btn {
             position: sticky;
-            bottom: 15px;
+            bottom: 20px;
             left: 15px;
             right: 15px;
             display: flex;
