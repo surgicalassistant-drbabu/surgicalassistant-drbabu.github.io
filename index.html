@@ -46,13 +46,49 @@
         p.description { font-size: 0.85rem; color: #4a4a4a; margin-bottom: 10px; }
 
         .profile-link { 
-            display: inline-block; 
-            font-size: 0.75rem; 
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem; 
             color: var(--primary-dark); 
-            text-decoration: underline; 
-            font-weight: 600; 
+            text-decoration: none; 
+            font-weight: 700; 
             cursor: pointer; 
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            padding: 6px 10px;
+            
+            /* MATCHING TEXTBOX STYLE */
+            background-color: rgba(255, 255, 255, 0.4); 
+            border: 1px solid rgba(28, 42, 35, 0.2); /* Thinner border with slight transparency */
+            border-radius: 50px;
+            
+            /* LOWER PROFILE SHADOW */
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03); 
+            
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            /* display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem; 
+            color: var(--primary-dark); 
+            text-decoration: none; 
+            font-weight: 700; 
+            cursor: pointer; 
+            margin-bottom: 25px;
+            padding: 10px 18px;
+            background: linear-gradient(145deg, #ffffff, #ececec);
+            border: none; 
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04), 
+                        0 1px 4px rgba(0,0,0,0.02);
+                        
+            letter-spacing: 0.5px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); */
+        }
+
+        .profile-link:active {
+            transform: scale(0.96);
         }
 
         @keyframes fadeIn {
@@ -239,7 +275,7 @@
 
                 <h3 style="font-size: 0.8rem; text-transform: uppercase; color: var(--primary-dark); margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Clinical Experience</h3>
                 <ul style="padding-left: 18px; margin: 10px 0;">
-                    <li style="margin-bottom: 5px;"><strong>300+ Cases</strong> across 20+ Private Hospitals (Mediclinic, Life, Netcare, etc.)</li>
+                    <li style="margin-bottom: 5px;"><strong>350+ Cases</strong> across 20+ Private Hospitals (Mediclinic, Life, Netcare, etc.)</li>
                     <li style="margin-bottom: 5px;">
                         <strong>General Surgery:</strong> 130+ cases
                         <ul style="padding-left: 15px; margin-top: 4px; list-style-type: circle; color: #555;">
@@ -273,7 +309,15 @@
         <img src="logo.png" alt="Logo" class="logo-small">
         <h1>Book Assistance</h1>
         <p class="description">Trusted by 20+ surgeons across Cape Town.</p>
-        <span class="profile-link" onclick="toggleProfile()">View Professional Profile →</span>
+        <!-- <span class="profile-link" onclick="toggleProfile()">View Professional Profile →</span> -->
+         <div class="profile-link" onclick="toggleProfile()">
+            <svg style="width:14px; height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Professional Profile
+        </div>
 
         <div class="mode-switcher">
             <button type="button" class="mode-btn active" id="btnModeBook" onclick="setMode('book')">Book Case</button>
