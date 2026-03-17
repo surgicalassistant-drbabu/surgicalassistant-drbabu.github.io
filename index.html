@@ -55,6 +55,15 @@
             margin-bottom: 20px;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
         #profileOverlay {
             display: none;
             position: fixed;
@@ -63,7 +72,8 @@
             z-index: 2000;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 5px; 
+            padding-top: 5px;
+            animation: fadeIn 1s ease forwards;
         }
 
         .overlay-content {
@@ -78,6 +88,7 @@
             max-height: 95vh;
             overflow-y: auto;
             text-align: center;
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .overlay-inner { padding: 25px 30px; }
